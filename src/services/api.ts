@@ -10,36 +10,41 @@ import {
   AiDetailedAnalysisResponse
 } from '../types/api';
 
-const API_BASE_URL = 'https://telbot.yaoyao.party/api';
+const API_BASE_URL = '/api';
 
 // 通用请求函数
 async function request<T>(url: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    });
 
-  if (!response.ok) {
-    // 尝试解析错误响应
-    try {
-      const errorData = await response.json();
-      const error = new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      // @ts-ignore
-      error.response = {
-        status: response.status,
-        data: errorData
-      };
-      throw error;
-    } catch (parseError) {
-      // 如果无法解析错误响应，抛出基本错误
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      // 尝试解析错误响应
+      try {
+        const errorData = await response.json();
+        const error = new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        // @ts-ignore
+        error.response = {
+          status: response.status,
+          data: errorData
+        };
+        throw error;
+      } catch (parseError) {
+        // 如果无法解析错误响应，抛出基本错误
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
     }
-  }
 
-  return await response.json();
+    return await response.json();
+  } catch (error) {
+    console.error('API request error:', error);
+    throw error;
+  }
 }
 
 // 用户注册
