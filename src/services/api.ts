@@ -10,7 +10,7 @@ import {
   AiDetailedAnalysisResponse
 } from '../types/api';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'https://telbot.yaoyao.party/api';
 
 // 通用请求函数
 async function request<T>(url: string, options: RequestInit = {}): Promise<T> {
