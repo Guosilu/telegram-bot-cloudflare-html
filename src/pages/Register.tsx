@@ -4,7 +4,11 @@ import { register } from '../services/api';
 import { RegisterRequest } from '../types/api';
 import { handleError, validate } from '../utils/helpers';
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  setCurrentPage: (page: string) => void;
+}
+
+const Register: React.FC<RegisterProps> = ({ setCurrentPage }) => {
   const [formData, setFormData] = useState<RegisterRequest>({
     bot_user_id: 0,
     username: '',
@@ -46,6 +50,10 @@ const Register: React.FC = () => {
       const response = await register(formData);
       setSuccess('注册成功！');
       console.log('注册成功:', response);
+      // 注册成功后跳转到登录页面
+      setTimeout(() => {
+        setCurrentPage('login');
+      }, 1000);
     } catch (err) {
       setError(handleError(err));
     } finally {
@@ -96,6 +104,9 @@ const Register: React.FC = () => {
           {loading ? '注册中...' : '注册'}
         </button>
       </form>
+      <div className="login-link">
+        已有账号？<button onClick={() => setCurrentPage('login')} className="link-button">去登录</button>
+      </div>
     </div>
   );
 };

@@ -84,6 +84,9 @@ const Login: React.FC<LoginProps> = ({ setToken, setCurrentPage }) => {
           {loading ? '登录中...' : '登录'}
         </button>
       </form>
+      <div className="register-link">
+        还没有账号？<button onClick={() => setCurrentPage('register')} className="link-button">去注册</button>
+      </div>
     </div>
   );
 };
