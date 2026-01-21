@@ -7,6 +7,7 @@ import Token from './pages/Token'
 import UserCounts from './pages/UserCounts'
 import AiAnalysis from './pages/AiAnalysis'
 import AiDetailedAnalysis from './pages/AiDetailedAnalysis'
+import { storage } from './utils/helpers'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login')
@@ -17,10 +18,17 @@ function App() {
     setCurrentPage('login')
   }
 
+  // 退出登录功能
+  const handleLogout = () => {
+    setToken('')
+    storage.remove('token')
+    setCurrentPage('login')
+  }
+
   return (
     <div className="App">
       {/* 只有登录后才显示导航栏 */}
-      {token && <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />}
+      {token && <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} onLogout={handleLogout} />}
       <div className="container">
         {currentPage === 'register' && <Register setCurrentPage={setCurrentPage} />}
         {currentPage === 'login' && <Login setToken={setToken} setCurrentPage={setCurrentPage} />}

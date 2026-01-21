@@ -4,12 +4,11 @@ import './Navbar.css';
 interface NavbarProps {
   currentPage: string;
   setCurrentPage: (page: string) => void;
+  onLogout: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage, onLogout }) => {
   const navItems = [
-    { id: 'login', label: '登录' },
-    { id: 'register', label: '注册' },
     { id: 'token', label: '获取Token' },
     { id: 'userCounts', label: '用户次数' },
     { id: 'aiAnalysis', label: 'AI分析' },
@@ -32,6 +31,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
             </button>
           </li>
         ))}
+        <li>
+          <button
+            className="navbar-item logout-button"
+            onClick={onLogout}
+          >
+            退出登录
+          </button>
+        </li>
       </ul>
     </nav>
   );
